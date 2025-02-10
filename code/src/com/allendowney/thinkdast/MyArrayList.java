@@ -123,7 +123,7 @@ public class MyArrayList<T> implements List<T> {
 		// TODO: FILL THIS IN!
 		// This is Linear, O(n)
 		for (int i = 0; i < size; i++) {
-			if ((target == null && array[i] == null) || (target != null && array[i].equals(target))) {
+			if ((target == null && array[i] == null) || (array[i].equals(target))) {
 				return i;
 			}
 		}
