@@ -62,7 +62,7 @@ public class MyLinkedList<E> implements List<E> {
 		mll.add(3);
 		System.out.println(Arrays.toString(mll.toArray()) + " size = " + mll.size());
 
-		mll.remove(new Integer(2));
+		mll.remove((Integer) 2);
 		System.out.println(Arrays.toString(mll.toArray()) + " size = " + mll.size());
 	}
 
@@ -83,6 +83,27 @@ public class MyLinkedList<E> implements List<E> {
 	@Override
 	public void add(int index, E element) {
 		//TODO: FILL THIS IN!
+		if (index < 0 || index > size) {
+			throw new IndexOutOfBoundsException();
+		}
+		Node newNode = new Node(element);
+		if (index == 0) {
+			if (head == null) {
+				head = newNode;
+			} else {
+				newNode.next = head;
+				head = newNode;
+			}
+		}
+		else {
+			Node prev = head;
+			for (int i = 0; i < index - 1; i++) {
+				prev = prev.next;
+			}
+			newNode.next = prev.next;
+			prev.next = newNode;
+		}
+		size++;
 	}
 
 	@Override
@@ -144,6 +165,20 @@ public class MyLinkedList<E> implements List<E> {
 	@Override
 	public int indexOf(Object target) {
 		//TODO: FILL THIS IN!
+		Node node = head;
+		int index = 0;
+		while (node != null) {
+			if (target == null) {
+				if (node.data == null) {
+					return index;
+				}
+			}
+			else if (target.equals(node.data)) {
+				return index;
+			}
+			node = node.next;
+			index++;
+		}
 		return -1;
 	}
 
@@ -152,7 +187,7 @@ public class MyLinkedList<E> implements List<E> {
 	 * Handles the special case that the target is null.
 	 *
 	 * @param target
-	 * @param object
+	 * @param element
 	 */
 	private boolean equals(Object target, Object element) {
 		if (target == null) {
@@ -209,7 +244,27 @@ public class MyLinkedList<E> implements List<E> {
 	@Override
 	public E remove(int index) {
 		//TODO: FILL THIS IN!
-		return null;
+		if (index < 0 || index >= size) {
+			throw new IndexOutOfBoundsException();
+		}
+		E removedData;
+
+		if (index == 0) {
+			removedData = head.data;
+			head = head.next;
+		}
+		else {
+			Node prev = head;
+			for (int i=0; i<index - 1; i++) {
+				prev = prev.next;
+			}
+			Node target = prev.next;
+			removedData = target.data;
+			prev.next = target.next;
+			target.next = null;
+		}
+		size--;
+		return removedData;
 	}
 
 	@Override
@@ -245,14 +300,24 @@ public class MyLinkedList<E> implements List<E> {
 			throw new IndexOutOfBoundsException();
 		}
 		// TODO: classify this and improve it.
-		int i = 0;
 		MyLinkedList<E> list = new MyLinkedList<E>();
-		for (Node node=head; node != null; node = node.next) {
-			if (i >= fromIndex && i <= toIndex) {
-				list.add(node.data);
-			}
+		Node current = head;
+		int i = 0;
+		while (i < fromIndex) {
+			current = current.next;
 			i++;
 		}
+		while (i < toIndex) {
+			list.add(current.data);
+			current = current.next;
+			i++;
+		}
+//		for (Node node=head; node != null; node = node.next) {
+//			if (i >= fromIndex && i <= toIndex) {
+//				list.add(node.data);
+//			}
+//			i++;
+//		}
 		return list;
 	}
 

@@ -3,7 +3,7 @@
  */
 package com.allendowney.thinkdast;
 
-import java.awt.Color;
+import java.awt.*;
 
 import org.apache.commons.math3.stat.regression.SimpleRegression;
 import org.jfree.chart.ChartFactory;
@@ -56,8 +56,8 @@ public class Profiler extends ApplicationFrame {
 	/**
 	 * Invokes timeIt with a range of `n` from `startN` until runtime exceeds `endMillis`.
 	 *
-	 * @param data.timeable
-	 * @param n
+	 * @param startN
+	 * @param endMillis
 	 * @return
 	 */
 	public XYSeries timingLoop(int startN, int endMillis) {
@@ -137,7 +137,7 @@ public class Profiler extends ApplicationFrame {
         chart.setBackgroundPaint(Color.white);
         plot.setOutlinePaint(Color.black);
         final ChartPanel chartPanel = new ChartPanel(chart);
-        chartPanel.setPreferredSize(new java.awt.Dimension(1000, 600));
+        chartPanel.setPreferredSize(new Dimension(1000, 600));
         setContentPane(chartPanel);
         pack();
         RefineryUtilities.centerFrameOnScreen(this);
